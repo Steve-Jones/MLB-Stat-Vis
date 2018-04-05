@@ -10,14 +10,14 @@ var d3app = {
     angularScope: angular.element(document.getElementById('body')).scope(),
 
     current_team: '',
-    default_team: 'ATL', // both of these are used
+    default_team: 'BOS', // both of these are used
 
-    current_stat: 'ERA',
+    current_stat: 'AVG',
 
     activeWindow: 1,
 
-    sortingKey1: 'Age',
-    sortingKey2: 'Age',
+    sortingKey1: 'Salary',
+    sortingKey2: 'WAR',
 
     current_y_base: 0, // for readjust the position of plot after centered zooming
             // it's the (CARTESIAN) y coordinates the current chart bottom is at
@@ -31,31 +31,32 @@ var d3app = {
         start_year: 1970,
         end_year: 2017,
 
-        bar_w: 21,
+        player_bar_w: 21,
+        bar_w: 8,
         bar_sp: 2, // between-bar spacing
         grid_spacing: 1,
         grid_min_height: 2,
 
         zoomFactor: 1.5,
 
-        grid_scale_sal: 7.3,
-        grid_scale_war: 5.5,
+        grid_scale_sal: 3.5,
+        grid_scale_war: 2.3,
 
-        wl: 630,
-        hl: 550,
-        wr: 1200,
-        hrt: 150,
-        hrb: 395,
+        wl: 1240,
+        hl: 220,
+        wr: 1240,
+        hrt: 220,
+        hrb: 220,
         sideshift_left: 0,
         sideshift_right: 30,
 
-        hyear: 30,
+        hyear: 12,
 
-        hl_chart: 550, // this is within hl, right now equals hl because year svg is separated
-        hrb_chart: 395,
+        hl_chart: 220, // this is within hl, right now equals hl because year svg is separated
+        hrb_chart: 220,
 
         barbgcolor: '#ffffff',
-        barbghigh: '#f7f7f7',
+        barbghigh: '#dadada',
 
         barcolors: {
             Salary_norm: {
@@ -88,34 +89,42 @@ var d3app = {
     chartInit: function() {
         var c = d3app.config;
 
-        var svgLeft = d3.select('#chartLeft').append('svg')
+        // Team Salary Bars
+        var svgTeamSalary = d3.select('#team-salary-timeline').append('svg')
             .attr('width', c.wl)
             .attr('height', c.hl)
-        var canvasLeft = svgLeft.append('g').attr('id', 'canvasLeft');
+        var canvasSalary = svgTeamSalary.append('g').attr('id', 'canvasSalary');
+        // Team WAR Bars
 
-        var svgLeftYear = d3.select('#chartLeftYear').append('svg')
+
+        // Team Salary Years
+        var svgTeamSalaryYear = d3.select('#team-salary-timeline-year').append('svg')
             .attr('width', c.wl)
             .attr('height', c.hyear)
-        var canvasLeftYear = svgLeftYear.append('g').attr('id', 'canvasLeftYear');
+        var canvasTeamSalaryYear = svgTeamSalaryYear.append('g').attr('id', 'canvasTeamSalaryYear');
 
-        var svgRightTop = d3.select('#chartRightTop').append('svg')
+        // Player Stats
+        var svgPlayerTimeline = d3.select('#playerTimeline').append('svg')
             .attr('width', c.wr)
             .attr('height', c.hrt)
-        var canvasRightTop = svgRightTop.append('g').attr('id', 'canvasRightTop');
+        var statTimeline = svgPlayerTimeline.append('g')
+            .attr('id', 'statTimeline')
+            .attr('transform', 'translate(' + (40) + ',' + (0) + ')');
 
-        var svgRightBottom = d3.select('#chartRightBottom').append('svg')
+        // Team WAR Bars
+        var svgTeamWar = d3.select('#team-war-timeline').append('svg')
             .attr('width', c.wr)
             .attr('height', c.hrb)
-        var canvasRightBottom = svgRightBottom.append('g').attr('id', 'canvasRightBottom');
+        var canvasTeamWar = svgTeamWar.append('g').attr('id', 'canvasTeamWar');
 
-        var svgRightBottom = d3.select('#chartRightYear').append('svg')
+        var svgTeamWar = d3.select('#team-war-timeline-year').append('svg')
             .attr('width', c.wr)
             .attr('height', c.hyear)
-        var canvasRightYear = svgRightBottom.append('g').attr('id', 'canvasRightYear');
+        var canvasTeamWarYear = svgTeamWar.append('g').attr('id', 'canvasTeamWarYear');
 
         // <g>s bound to years
         // left
-        var gsLeft = canvasLeft.append('g')
+        var gsTeamSalary = canvasSalary.append('g')
             .selectAll('g')
             .data(d3app.years)
             .enter()
@@ -123,12 +132,12 @@ var d3app = {
             .attr('class', 'g_year')
             .attr('transform', function(d, i) {
                     var trs = 'translate(' +
-                    (i * (c.bar_w + c.bar_sp) + c.bar_sp + c.sideshift_left) +
+                    (i * (c.bar_w + c.bar_sp+15) + c.bar_sp + c.sideshift_left) +
                     ',' + 0 + ')';
                     return trs;
             });
         // left years
-        var gsLeftYear = canvasLeftYear.append('g')
+        var gsTeamSalaryYear = canvasTeamSalaryYear.append('g')
             .selectAll('g')
             .data(d3app.years)
             .enter()
@@ -136,12 +145,12 @@ var d3app = {
             .attr('class', 'g_year')
             .attr('transform', function(d, i) {
                     var trs = 'translate(' +
-                    (i * (c.bar_w + c.bar_sp) + c.bar_sp + c.sideshift_left) +
+                    (i * (c.bar_w + c.bar_sp+15) + c.bar_sp + c.sideshift_left) +
                     ',' + 0 + ')';
                     return trs;
             });
         // right bottom
-        var gsRightBottom = canvasRightBottom.append('g')
+        var gsTeamWar = canvasTeamWar.append('g')
             .selectAll('g')
             .data(d3app.years)
             .enter()
@@ -149,12 +158,12 @@ var d3app = {
             .attr('class', 'g_year')
             .attr('transform', function(d, i) {
                     var trs = 'translate(' +
-                    (i * (c.bar_w + c.bar_sp) + c.bar_sp) +
+                    (i * (c.bar_w + c.bar_sp+15) + c.bar_sp) +
                     ',' + 0 + ')';
                     return trs;
             });
-        // right top
-        var gsRightTop = canvasRightTop.append('g')
+        // player timeline
+        var gsPlayerTimeline = statTimeline.append('g')
             .selectAll('g')
             .data(d3app.years)
             .enter()
@@ -162,12 +171,12 @@ var d3app = {
             .attr('class', 'g_year')
             .attr('transform', function(d, i) {
                     var trs = 'translate(' +
-                    (i * (c.bar_w + c.bar_sp) + c.bar_sp) +
+                    (i * (c.player_bar_w + c.bar_sp+2) + c.bar_sp) +
                     ',' + 0 + ')';
                     return trs;
             });
         // right years
-        var gsRightYear = canvasRightYear.append('g')
+        var gsRightYear = canvasTeamWarYear.append('g')
             .selectAll('g')
             .data(d3app.years)
             .enter()
@@ -175,26 +184,26 @@ var d3app = {
             .attr('class', 'g_year')
             .attr('transform', function(d, i) {
                     var trs = 'translate(' +
-                    (i * (c.bar_w + c.bar_sp) + c.bar_sp) +
+                    (i * (c.bar_w + c.bar_sp+15) + c.bar_sp) +
                     ',' + 0 + ')';
                     return trs;
             });
 
         // backround rects
         // left
-        gsLeft.append('rect')
+        gsTeamSalary.append('rect')
             .attr('class', function(d) { return 'bg_year bg_year' + d})
             .attr('height', c.hl)
         // left years
-        gsLeftYear.append('rect')
+        gsTeamSalaryYear.append('rect')
             .attr('class', function(d) { return 'bg_year bg_year' + d})
             .attr('height', c.hyear)
         // right bottom
-        gsRightBottom.append('rect')
+        gsTeamWar.append('rect')
             .attr('class', function(d) { return 'bg_year bg_year' + d})
             .attr('height', c.hrb)
         // right top
-        gsRightTop.append('rect')
+        gsPlayerTimeline.append('rect')
             .attr('class', function(d) { return 'bg_year bg_year' + d})
             .attr('height', c.hrt)
         // right years
@@ -218,12 +227,12 @@ var d3app = {
 
         // create data groups (the "bars" spaces)
         // left
-        gsLeft.append('g')
+        gsTeamSalary.append('g')
             .attr('id', function(d) { return 'grid_left'+d; })
             .attr('transform', function(d) {
                 return 'translate(0,' + c.hl_chart + ')';
             })
-        gsLeftYear.append('g')
+        gsTeamSalaryYear.append('g')
             .attr('id', function(d) { return 'grid_left_year'+d; })
             .attr('transform', function(d) {
                 return 'translate(0,' + c.hyear + ')';
@@ -232,7 +241,7 @@ var d3app = {
             .attr('class', 'yearText')
             .text(function(d) { return d; });
         // right bottom
-        gsRightBottom.append('g')
+        gsTeamWar.append('g')
             .attr('id', function(d) { return 'grid_rightbottom'+d; })
             .attr('transform', function(d) {
                 return 'translate(0,' + c.hrb_chart + ')';
@@ -246,13 +255,13 @@ var d3app = {
             .attr('class', 'yearText')
             .text(function(d) { return d; });
         // right top
-        gsRightTop.append('g')
-            .attr('id', function(d) { return 'grid_righttop'+d; })
+        gsPlayerTimeline.append('g')
+            .attr('id', function(d) { return 'grid_player_timeline'+d; })
             .attr('transform', function(d) {
                 return 'translate(0,' + c.hrt + ')';
             })
 
-        canvasLeft.append('text')
+        canvasSalary.append('text')
             .attr('id', 'axisTextMain')
             .attr('text-anchor', 'end')
             .text('Salary (normalized by league average)')
@@ -601,7 +610,7 @@ var d3app = {
         this.years.forEach(function(year){
             data_single_year = data_years[year];
 
-            var g = d3.select('#grid_righttop'+year);
+            var g = d3.select('#grid_player_timeline'+year);
             g.selectAll('circle').remove();
             g.selectAll('circle')
                 .data(data_single_year.filter(function(row){
@@ -637,11 +646,11 @@ var d3app = {
                 .ticks(4)
                 .outerTickSize(0);
 
-        var crt = d3.select('#canvasRightTop');
+        var crt = d3.select('#statTimeline');
         crt.selectAll('#yaxis_stat').remove();
         var statAxis = crt.append('g').attr('id', 'yaxis_stat')
             .attr('class', 'yaxis')
-            .attr('transform', 'translate(' + (c.wr - c.sideshift_right) + ',' + c.hrt + ')')
+            .attr('transform', 'translate(' + (0) + ',' + c.hrt + ')')
             .attr('class', 'axis')
             .call(yAxis);
 
@@ -662,35 +671,35 @@ var d3app = {
                 .domain([0, c.hrb_chart / c.grid_scale_war])
                 .range([c.hrb_chart, 0]);
 
-        var g = d3.select('#canvasRightBottom');
+        var g = d3.select('#canvasTeamWar');
         g.selectAll('path').remove();
         g.selectAll('line').remove();
 
-        if (d3app.teamdata.hasOwnProperty(team)) {
-            var data = d3app.teamdata[team];
-
-            var lineFunc = d3.svg.line()
-                .y(function(d) {
-                    return warscale(d.wpct * scale);
-                })
-                .x(function(d) {
-                    return (d.yearID - c.start_year) * (c.bar_w + 2) +
-                        c.bar_w / 2;
-                })
-                .interpolate('cardinal');
-
-            g.append('path')
-                .attr('d', lineFunc(data))
-                .attr('class', 'chartline');
-
-            // add a 0.500 / 81win baseline
-            g.append('line')
-                .attr('class', 'chartbaseline')
-                .attr('x1', 0)
-                .attr('x2', c.wr - c.sideshift_right - 10 + 10)
-                .attr('y1', warscale(0.5 * scale))
-                .attr('y2', warscale(0.5 * scale));
-        }
+        // if (d3app.teamdata.hasOwnProperty(team)) {
+        //     var data = d3app.teamdata[team];
+        //
+        //     var lineFunc = d3.svg.line()
+        //         .y(function(d) {
+        //             return warscale(d.wpct * scale);
+        //         })
+        //         .x(function(d) {
+        //             return (d.yearID - c.start_year) * (c.bar_w + 2) +
+        //                 c.bar_w / 2;
+        //         })
+        //         .interpolate('cardinal');
+        //
+        //     g.append('path')
+        //         .attr('d', lineFunc(data))
+        //         .attr('class', 'chartline');
+        //
+        //     // add a 0.500 / 81win baseline
+        //     g.append('line')
+        //         .attr('class', 'chartbaseline')
+        //         .attr('x1', 0)
+        //         .attr('x2', c.wr - c.sideshift_right - 10 + 10)
+        //         .attr('y1', warscale(0.5 * scale))
+        //         .attr('y2', warscale(0.5 * scale));
+        // }
 
         var yAxis = d3.svg.axis().scale(warscale).orient('right')
                 .ticks(10)
@@ -818,7 +827,7 @@ var d3app = {
                 d3app.plot(d3app.default_team, 'Salary_norm', d3app.sortingKey1);
                 d3app.plot(d3app.default_team, 'WAR', d3app.sortingKey2);
 
-                d3app.plotTeamPerformance(d3app.current_team);
+                // d3app.plotTeamPerformance(d3app.current_team);
 
                 d3app.plotScatter(d3app.current_team, d3app.current_stat);
 

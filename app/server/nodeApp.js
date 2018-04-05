@@ -9,7 +9,7 @@ app.use('/data', express.static(path.join(__dirname, '../data')));
 var port = 7450;
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '..', 'v3.html'));
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 app.listen(port, function() {
