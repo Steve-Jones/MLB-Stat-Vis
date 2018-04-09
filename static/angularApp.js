@@ -72,7 +72,7 @@ app.controller('MainController', ['$scope','$http',
             if (mode === 0 || mode === 3) {
                 d3app.plotScatter($scope.selectedTeam, $scope.selectedStat);
             }
-            if (mode === 0) {            
+            if (mode === 0) {
                 d3app.plotTeamPerformance($scope.selectedTeam);
             }
         };
@@ -88,9 +88,9 @@ app.controller('MainController', ['$scope','$http',
         }
 
         $scope.posDict = {
-            F: 'Fielder',
-            SP: 'Starting Pitcher',
-            RP: 'Relief Pitcher',
+            F: 'Hitter',
+            SP: 'SP',
+            RP: 'RP',
         };
 
         $scope.description = function(player) {
