@@ -104,6 +104,10 @@ app.controller('MainController', ['$scope','$http',
             return utilities.teamNameDict[teamIDBR].name;
         };
 
+        $scope.getStatName = function(statIDBR) {
+            return utilities.teamNameDict[statIDBR].name;
+        };
+
         $scope.getESPNID = function(teamIDBR) {
             return utilities.teamNameDict[teamIDBR].teamIDESPN;
         };

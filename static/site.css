@@ -54,6 +54,17 @@ div {
   color: #636460;
 }
 
+.player1-box {
+  width: 100%;
+  height: 100%;
+    border: 2px solid #c67400;
+}
+.player2-box {
+  width: 100%;
+  height: 100%;
+    border: 2px solid #0075a8;
+}
+
 .no-player-selected {
   position: absolute;
   width: 100%;
@@ -62,11 +73,11 @@ div {
 }
 
 .no-player-selected-text {
-position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-/* margin: 0 auto; */
+  /* margin: 0 auto; */
 }
 
 .no-player-selected-name {
@@ -81,7 +92,8 @@ position: absolute;
 
 .headshot_div {
   padding: 10px;
-  text-align: right;
+  position: relative;
+  float: left;
 }
 
 .description {
@@ -97,24 +109,35 @@ position: absolute;
 
 
 #headshot1 {
-  border: 2px solid #c67400;
+
 }
 
 #headshot2 {
-  border: 2px solid #0075a8;
+
 }
 
 .player-bio {
-  width: 100%;
+  width: 40%;
+  float: left;
+  display: inline;
 }
 .player-stats {
-  width: 100%;
-
+  width: 40%;
+  float: left;
+  display: inline;
+}
+.player-close{
+  float: right;
+  display: inline;
+  margin-top: 5px;
+margin-right: 5px;
+font-size: 16px;
+font-weight: bold;
 }
 .player-name {
   margin-top: 10px;
   font-size: 14px;
-font-weight: bold;
+  font-weight: bold;
 }
 
 .area.player1 {
@@ -131,17 +154,21 @@ font-weight: bold;
 
 
 .statsbar_stats_header {
-  margin-top: 33px;
-  color: #cccccc;
+  margin-top: 10px;
+  /* color: #cccccc; */
   font-weight: bold;
-  font-size: 11px;
+  /* font-size: 11px; */
   text-align: right;
   padding-right: 10px;
 }
 
 .statsbar_stats_header_item {
-  height: 20px;
-  align-items: center;
+  /* height: 20px; */
+    width: 50px;
+    /* align-items: center; */
+    display: inline;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .bartext, .bartext_year {
@@ -233,6 +260,12 @@ font-weight: bold;
 .dot_hovered2 {
   stroke-width: 2px;
 }
+.dot_selected1,
+.dot_hovered1,
+.dot_selected2,
+.dot_hovered2 {
+  pointer-events: none;
+}
 
 .selected1,
 .hovered1 {
@@ -258,9 +291,9 @@ font-weight: bold;
 
 .yearText {
   font-size: 9px;
-/* font-weight: bold; */
-fill: #62645f85;
-/* transform: rotate(-90deg) translate(1px,9px); */
+  /* font-weight: bold; */
+  fill: #62645f85;
+  /* transform: rotate(-90deg) translate(1px,9px); */
 }
 
 .chartline,
@@ -388,8 +421,6 @@ fill: #62645f85;
 }
 
 #team-salary-timeline-year{
-  position: relative;
-  top: -250px;
   height: 30px;
   padding-left: 38px;
 }
@@ -489,7 +520,7 @@ fill: #62645f85;
 }
 
 #teamSelect {
-  width: 180px;
+  width: 150px;
 }
 
 .linelegend line {
@@ -555,4 +586,21 @@ fill: #62645f85;
 
 #war_legend_svg_text {
   transform: rotate(-90deg) translate(-65px,16px);
+}
+
+select {
+  display: initial !important;
+}
+
+select.browser-default {
+  display: block;
+}
+
+select {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #f2f2f2;
+  border-radius: 2px;
+  height: 2rem !important;
 }
