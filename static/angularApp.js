@@ -20,6 +20,7 @@ app.controller('MainController', ['$scope','$http',
         $scope.stats_raw = utilities.Fstats_raw.concat(utilities.Pstats_raw);
 
         $scope.formatSalary = utilities.formatSalary;
+        $scope.formatAVG = utilities.formatAVG;
 
         // selected player data
         $scope.year = '';

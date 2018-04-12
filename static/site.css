@@ -57,12 +57,12 @@ div {
 .player1-box {
   width: 100%;
   height: 100%;
-    border: 2px solid #c67400;
+  border: 2px solid #c67400;
 }
 .player2-box {
   width: 100%;
   height: 100%;
-    border: 2px solid #0075a8;
+  border: 2px solid #0075a8;
 }
 
 .no-player-selected {
@@ -130,9 +130,9 @@ div {
   float: right;
   display: inline;
   margin-top: 5px;
-margin-right: 5px;
-font-size: 16px;
-font-weight: bold;
+  margin-right: 5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .player-name {
   margin-top: 10px;
@@ -164,16 +164,41 @@ font-weight: bold;
 
 .statsbar_stats_header_item {
   /* height: 20px; */
-    width: 50px;
-    /* align-items: center; */
-    display: inline;
-    padding-right: 5px;
-    padding-left: 5px;
+  width: 50px;
+  /* align-items: center; */
+  display: inline;
+  padding-right: 5px;
+  padding-left: 5px;
 }
+
+.stats-head {
+  margin-top: 10px;
+  /* color: #cccccc; */
+  font-weight: bold;
+  /* font-size: 11px; */
+  text-align: right;
+
+}
+
+.stats-list {
+  padding-top: 15px;
+}
+
+ .stat-list {
+   width: 20%;
+    float: left;
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+ }
 
 .bartext, .bartext_year {
   fill: #ffffff;
   font-weight: bold;
+}
+
+.bg_year {
+
 }
 
 #top_spacing,
@@ -477,9 +502,13 @@ font-weight: bold;
 
 .axis line,
 .axis path {
-  stroke: #666666;
+  stroke: #0000001a;
   fill: none;
   shape-rendering: crispEdges;
+}
+
+.axis path {
+  stroke: #ffffff;
 }
 
 .axis text {
@@ -564,6 +593,44 @@ font-weight: bold;
   padding: 15px 0;
 }
 
+#bar-legend {
+  position: relative;
+  float: right;
+  height: 30px;
+  width: 40%;
+}
+
+#sal_legend {
+  left: 100px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#war_legend {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#sal-legend-text {
+  left: 122px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#war-legend-text {
+  left: 22px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #barlegend svg {
   /* background-color: #0c0c0c; */
 }
@@ -573,19 +640,19 @@ font-weight: bold;
 }
 
 #sal_legend_text {
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 #war_legend_text {
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 #sal_legend_svg_text {
-  transform: rotate(-90deg) translate(-345px,16px);
+  /* transform: rotate(-90deg) translate(-345px,16px); */
 }
 
 #war_legend_svg_text {
-  transform: rotate(-90deg) translate(-65px,16px);
+  /* transform: rotate(-90deg) translate(-65px,16px); */
 }
 
 select {

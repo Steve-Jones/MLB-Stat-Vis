@@ -261,12 +261,6 @@ var d3app = {
     .attr('transform', function(d) {
       return 'translate(0,' + c.hrt + ')';
     })
-
-    canvasSalary.append('text')
-    .attr('id', 'axisTextMain')
-    .attr('text-anchor', 'end')
-    .text('Salary (normalized by league average)')
-    .attr('transform', 'translate(' + (c.wl - 10) + ',15)')
   },
 
 
@@ -420,6 +414,12 @@ var d3app = {
 
       player.salary = d.Salary;
       player.WAR = d.WAR;
+      player.AVG = d.AVG;
+      player.HR = d.HR;
+      player.OPS = d.OPS;
+      player.ERA = d.ERA;
+      player.WHIP = d.WHIP;
+      player.SO = d.SO;
       player.team = d.Team;
 
       player.pos2 = d.Pos2;
@@ -482,6 +482,12 @@ var d3app = {
       player.pos2 = d.Pos2;
       player.salary = d.Salary;
       player.WAR = d.WAR;
+      player.AVG = d.AVG;
+      player.HR = d.HR;
+      player.OPS = d.OPS;
+      player.ERA = d.ERA;
+      player.WHIP = d.WHIP;
+      player.SO = d.SO;
       player.team = d.Team;
 
     });
@@ -513,6 +519,12 @@ var d3app = {
         player.pos2 = '';
         player.salary = 0;
         player.WAR = 0.0;
+        player.AVG = 0.0;
+        player.HR = 0;
+        player.OPS = 0.0;
+        player.ERA = 0.0;
+        player.WHIP = 0.0;
+        player.SO = 0;
         player.team = '';
       });
     }
@@ -660,7 +672,9 @@ var d3app = {
     // axis to the right
     var yAxis = d3.svg.axis().scale(yscale).orient('right')
     .ticks(4)
-    .outerTickSize(0);
+    .outerTickSize(0)
+    .innerTickSize(1200)
+    .tickPadding(-1220);
 
     var crt = d3.select('#statTimeline');
     crt.selectAll('#yaxis_stat').remove();
@@ -670,10 +684,10 @@ var d3app = {
     .attr('class', 'axis')
     .call(yAxis);
 
-    statAxis.append('text').text(stat)
-    .attr('id', 'axisTextMain')
-    .style('text-anchor', 'end')
-    .attr('transform', 'translate(-10,' + ( - c.hrt + 15) + ')');
+    // statAxis.append('text').text(stat)
+    // .attr('id', 'axisTextMain')
+    // .style('text-anchor', 'end')
+    // .attr('transform', 'translate(-10,' + ( - c.hrt + 15) + ')');
   },
 
 
